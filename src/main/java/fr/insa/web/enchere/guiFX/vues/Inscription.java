@@ -22,9 +22,13 @@ import javafx.scene.layout.GridPane;
 public class Inscription extends GridPane {
 
     private VuePrincipale main;
-
+//caracteristique pour pouvoir s'inscrire
     private TextField tfNom;
     private TextField tfPrenom;
+    private TextField tfemail;
+    private TextField tfpass;
+    private TextField tfcodepostal;
+//    boutton pour valider l'inscription
     private Button bOK;
 
     public Inscription(VuePrincipale main) {
@@ -35,13 +39,27 @@ public class Inscription extends GridPane {
         this.add(new Label("prenom"), 0, 1);
         this.tfPrenom = new TextField();
         this.add(this.tfPrenom, 1, 1);
+        this.add(new Label("email"), 0, 2);
+        this.tfemail = new TextField();
+        this.add(this.tfemail, 1, 2);
+        this.add(new Label("Password"), 0, 3);
+        this.tfpass = new TextField();
+        this.add(this.tfpass, 1, 3);
+        this.add(new Label("Code.Postale"), 0, 4);
+        this.tfcodepostal = new TextField();
+        this.add(this.tfcodepostal, 1, 4);
         this.bOK = new Button("OK");
-        this.add(bOK, 0, 2, 2, 1);
+        this.add(bOK, 0, 5, 2, 1);
         this.bOK.setOnAction((t) -> {
+            //je prend les donnees entrees par l'utilisateur
             String nom = tfNom.getText();
             String prenom = tfPrenom.getText();
+            String email = tfemail.getText();
+            String password = tfpass.getText();
+            String codepostal = tfcodepostal.getText();
             try {
-                Enchere.createUtilisateur(this.main.getConnectBdD(), nom, prenom, nom+"@monmail", "passs", "67000");
+//                je me connecte a la base de donnee pour pouvoir les souvegarder ladans tout en faisant des exceptions
+                Enchere.createUtilisateur(this.main.getConnectBdD(), nom, prenom, email, password, codepostal);
             } catch (SQLException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("problem :");

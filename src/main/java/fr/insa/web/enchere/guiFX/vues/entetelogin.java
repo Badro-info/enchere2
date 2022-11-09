@@ -50,14 +50,14 @@ public class entetelogin extends HBox {
         this.getChildren().add(bLogin);
         this.bInscription = new Button("inscription...");
         this.bInscription.setOnAction((t) -> {
-            // je change la vue principale
-//            this.main.setMainContent(new Inscription(main));
-//            this.main.setTop(new EnteteApresLogin(main));
+            // je change la vue principale quand j'active le boutton inscription
+            this.main.setMainContent(new Inscription(main));
+            this.main.setTop(new EnteteApresLogin(main));
             // j'ouvre une nouvelle fenetre
-            Scene sc = new Scene(new Inscription(main));
-            Stage st = new Stage();
-            st.setScene(sc);
-            st.show();
+//            Scene sc = new Scene(new Inscription(main));
+//            Stage st = new Stage();
+//            st.setScene(sc);
+//            st.show();
         });
         this.getChildren().add(this.bInscription);
     }

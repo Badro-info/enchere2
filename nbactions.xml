@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-runfx</actionName>
+            <displayName>runfx</displayName>
+            <goals>
+                <goal>javafx</goal>
+                <goal>:</goal>
+                <goal>run</goal>
+            </goals>
+        </action>
+    </actions>

@@ -47,10 +47,10 @@ public class VuePrincipale extends BorderPane {
     
     public VuePrincipale() {
         try {
-            this.connectBdD = Enchere.defautConnect();
+            this.connectBdD = Enchere.defautConnect(); //e me connecte d'abord a la base de donnee
             this.mainContent = new ScrollPane();
             this.setCenter(this.mainContent);
-            this.setTop(new entetelogin(this));
+            this.setTop(new entetelogin(this)); // j'integre entetelogin dans ma vue principale
         } catch (ClassNotFoundException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("pas de driver");
