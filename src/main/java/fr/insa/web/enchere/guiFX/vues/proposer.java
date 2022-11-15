@@ -25,7 +25,6 @@ public class proposer extends GridPane{
 //    private TextField tftitre;
 //    private TextField tfcategorie;
 //    private TextField tfproposerpar;
-//
 //    private Timestamp tfdatefin;
 //    private Timestamp tfdebut;
 //    private TextField tfprixbase;
