@@ -20,6 +20,7 @@ package fr.insa.badreddine.enchere.guifx;
 
 import fr.insa.badreddine.enchere.Enchere;
 import fr.insa.web.enchere.guiFX.vues.entetelogin;
+import fr.insa.web.enchere.sessioninfo.SessionInfo;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javafx.scene.Node;
@@ -51,6 +52,7 @@ public class VuePrincipale extends BorderPane {
             this.mainContent = new ScrollPane();
             this.setCenter(this.mainContent);
             this.setTop(new entetelogin(this)); // j'integre entetelogin dans ma vue principale
+//            this.setTop(new enteteboutons(this));
         } catch (ClassNotFoundException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("pas de driver");
@@ -62,6 +64,27 @@ public class VuePrincipale extends BorderPane {
             alert.showAndWait();
         }
 //         this.setMainContent(new Inscription(this));
+
+// this.sessioninfo = new Sessioninfo();
+//        this.mainContent = new ScrollPane();
+//        this.setCenter(this.mainContent);
+//        JavaFXUtils.addSimpleBorder(this.mainContent);
+//         try {
+//            this.sessionInfo.setConBdD(GestionBdD.defautConnect());
+//            this.setEntete(new EnteteInitialLogin(this));
+//            this.setMainContent(new BienvenueMainVue(this));
+//        } catch (ClassNotFoundException | SQLException ex) {
+//            this.setMainContent(new BdDNonAccessible(this));
+//        }
+//        
+//    }
+//
+//    /**
+//     * @return the sessionInfo
+//     */
+//    public SessionInfo getSessionInfo() {
+//        return sessionInfo;
+//    }
     }
 
     /**
