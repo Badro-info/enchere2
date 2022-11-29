@@ -4,7 +4,11 @@
  */
 package fr.insa.web.enchere.guiFX.vues;
 
+import fr.insa.badreddine.enchere.Enchere;
 import fr.insa.badreddine.enchere.guifx.VuePrincipale;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -35,15 +39,25 @@ public class entetelogin extends HBox {
         this.getChildren().add(this.pfPass);
         Button bLogin = new Button("Login");
         bLogin.setOnAction((t) -> {
-            String nom = this.tfNom.getText();
-            String pass = this.pfPass.getText();
-            System.out.println("je tente le login de " + nom + "(" + pass + ")");
-            if (nom.equals("toto")) {
-                this.main.setTop(new EnteteApresLogin(this.main));
-
-            } else {
+            try {
+                String nom = this.tfNom.getText();
+                String pass = this.pfPass.getText();
+                System.out.println("je tente le login de " + nom + "(" + pass + ")");
+                int id = Enchere.chercheUtilisateur(this.main.getConnectBdD(), nom, pass);
+                if (id != -1) {
+                    this.main.setUtilisateurCourant(id);
+                    this.main.setTop(new EnteteApresLogin(this.main));
+//                    this.main.setMainContent(new proposer(main));
+                } else {
+                    Alert a = new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("bad user");
+                    a.setContentText("nom d'utilisateur ou mot de passe invalide");
+                    a.showAndWait();
+                }
+            } catch (SQLException ex) {
                 Alert a = new Alert(Alert.AlertType.ERROR);
-                a.setTitle("bad user");
+                a.setTitle("Problème BdD");
+                a.setContentText("detail : " +ex.getLocalizedMessage());
                 a.showAndWait();
             }
         });

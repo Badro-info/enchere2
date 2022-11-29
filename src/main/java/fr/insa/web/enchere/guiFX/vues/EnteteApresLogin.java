@@ -16,12 +16,20 @@ public class EnteteApresLogin extends HBox{
     
     private VuePrincipale main;
     
+    private Button bProposer;
+    
     public EnteteApresLogin(VuePrincipale main){
         this.main=main;
         Button bLogout = new Button("Logout");
         this.getChildren().add(bLogout);
         bLogout.setOnAction((t) -> {
             this.main.setTop(new entetelogin(this.main));
+        });
+        
+        this.bProposer = new Button("Proposer");
+        this.getChildren().add(this.bProposer);
+        this.bProposer.setOnAction((t) -> {
+            this.main.setMainContent(new proposer(main));
         });
         
     }

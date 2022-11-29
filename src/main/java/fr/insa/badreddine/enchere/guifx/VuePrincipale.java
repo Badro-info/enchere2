@@ -36,6 +36,7 @@ import javafx.scene.layout.BorderPane;
 public class VuePrincipale extends BorderPane {
     
     private Connection connectBdD;
+    private int utilisateurCourant;
     private ScrollPane mainContent;
     
     public void setEntete(Node c) {
@@ -48,6 +49,7 @@ public class VuePrincipale extends BorderPane {
     
     public VuePrincipale() {
         try {
+            this.utilisateurCourant = -1;
             this.connectBdD = Enchere.defautConnect(); //e me connecte d'abord a la base de donnee
             this.mainContent = new ScrollPane();
             this.setCenter(this.mainContent);
@@ -92,6 +94,20 @@ public class VuePrincipale extends BorderPane {
      */
     public Connection getConnectBdD() {
         return connectBdD;
+    }
+
+    /**
+     * @return the utilisateurCourant
+     */
+    public int getUtilisateurCourant() {
+        return utilisateurCourant;
+    }
+
+    /**
+     * @param utilisateurCourant the utilisateurCourant to set
+     */
+    public void setUtilisateurCourant(int utilisateurCourant) {
+        this.utilisateurCourant = utilisateurCourant;
     }
     
 }

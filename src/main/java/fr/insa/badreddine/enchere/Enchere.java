@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Project/Maven2/JavaApp/src/main/java/${packagePath}/${mainClassName}.java to edit this template
  */
-
 package fr.insa.badreddine.enchere;
 
 import java.io.Console;
@@ -16,15 +15,15 @@ import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import fr.insa.badreddine.utils.ConsoleFdB;
-        
 
 /**
- * sqjdfhlkq pdfqsjmqsdjg 
+ * sqjdfhlkq pdfqsjmqsdjg
+ *
  * @author abadreddine01
  */
 public class Enchere {
-    
-     public static Connection connectGeneralPostGres(String host,
+
+    public static Connection connectGeneralPostGres(String host,
             int port, String database,
             String user, String pass)
             throws ClassNotFoundException, SQLException {
@@ -41,7 +40,8 @@ public class Enchere {
             throws ClassNotFoundException, SQLException {
         return connectGeneralPostGres("localhost", 5432, "postgres", "postgres", "pass");
     }
-public static void creeSchema(Connection con)
+
+    public static void creeSchema(Connection con)
             throws SQLException {
         // je veux que le schema soit entierement crÃ©Ã© ou pas du tout
         // je vais donc gÃ©rer explicitement une transaction
@@ -88,7 +88,7 @@ public static void creeSchema(Connection con)
                         sur integer
                     )
                     """);
-                       
+
             st.executeUpdate(
                     """
                     create table objet1 (
@@ -127,7 +127,7 @@ public static void creeSchema(Connection con)
                         add constraint fk_enchere1_sur
                         foreign key (sur) references objet(id)
                     """);
-            
+
             // si j'arrive jusqu'ici, c'est que tout s'est bien passÃ©
             // je confirme (commit) la transaction
             con.commit();
@@ -160,7 +160,6 @@ public static void creeSchema(Connection con)
 //             Logger.getLogger(Enchere.class.getName()).log(Level.SEVERE, null, ex);
 //         }
 //    }
-    
     public static void deleteSchema(Connection con) throws SQLException {
         try ( Statement st = con.createStatement()) {
             try {
@@ -298,16 +297,33 @@ public static void creeSchema(Connection con)
                 int id = rid.getInt(1);
                 return id;
             }
+        } catch (Exception ex) {
+            con.rollback();
+            throw ex;
+        } finally {
+            con.setAutoCommit(true);
         }
-    catch (Exception ex) {
-        con.rollback();
-        throw ex;
-    } finally {
-    con.setAutoCommit(true);
     }
-}
 
-public static void afficheTousLesUtilisateurs(Connection con) throws SQLException {
+    /**
+     * renvoie l'id d'un utilisateur ; -1 si mauvais nom ou mot de passe
+     */
+    public static int chercheUtilisateur(Connection con, String nom, String pass)
+            throws SQLException {
+        try ( PreparedStatement pst = con.prepareStatement(
+                "select id from utilisateur1 where nom = ? and pass = ?")) {
+            pst.setString(1, nom);
+            pst.setString(2, pass);
+            ResultSet res = pst.executeQuery();
+            if (res.next()) {
+                return res.getInt("id");
+            } else {
+                return -1;
+            }
+        }
+    }
+
+    public static void afficheTousLesUtilisateurs(Connection con) throws SQLException {
         try ( Statement st = con.createStatement()) {
             try ( ResultSet tlu = st.executeQuery("select id,nom,prenom,email,pass,codepostal from utilisateur1")) {
                 System.out.println("Liste des utilisateurs");
@@ -321,16 +337,16 @@ public static void afficheTousLesUtilisateurs(Connection con) throws SQLExceptio
                     String codepostal = tlu.getString(6);
                     String mess = id + " : " + nom + ", " + prenom + " / "
                             + email + " / " + pass + " / " + codepostal;
-                    
+
                     System.out.println(mess);
                 }
             }
         }
     }
-    
-    public static void afficheToutesLesCategories(Connection con) throws SQLException{
-        try (Statement st = con.createStatement()) {
-            try (ResultSet tlu = st.executeQuery("select id,nom")) {
+
+    public static void afficheToutesLesCategories(Connection con) throws SQLException {
+        try ( Statement st = con.createStatement()) {
+            try ( ResultSet tlu = st.executeQuery("select id,nom")) {
                 System.out.println("Liste des catégories");
                 System.out.println("--------------------");
                 while (tlu.next()) {
@@ -342,10 +358,10 @@ public static void afficheTousLesUtilisateurs(Connection con) throws SQLExceptio
             }
         }
     }
-    
-    public static void afficheTousLesObjets (Connection con) throws SQLException{
-        try (Statement st = con.createStatement()) {
-            try (ResultSet tlu = st.executeQuery("select id,titre,description,debut,fin,prixbase,categorie,proposepar")) {
+
+    public static void afficheTousLesObjets(Connection con) throws SQLException {
+        try ( Statement st = con.createStatement()) {
+            try ( ResultSet tlu = st.executeQuery("select id,titre,description,debut,fin,prixbase,categorie,proposepar")) {
                 System.out.println("Liste des objets");
                 System.out.println("----------------");
                 while (tlu.next()) {
@@ -357,7 +373,7 @@ public static void afficheTousLesUtilisateurs(Connection con) throws SQLExceptio
                     int prixbase = tlu.getInt("prixbase");
                     int categorie = tlu.getInt("categorie");
                     int proposepar = tlu.getInt("proposepar");
-                    String mess = id + " : " + titre + "\n Description : " + description 
+                    String mess = id + " : " + titre + "\n Description : " + description
                             + "\n Début de l'enchère : " + debut + "\n Fin de l'enchère : "
                             + fin + "\n Prix initial : " + prixbase + "\n Catégorie : "
                             + categorie + "\n Proposé par : " + proposepar;
@@ -366,34 +382,31 @@ public static void afficheTousLesUtilisateurs(Connection con) throws SQLExceptio
             }
         }
     }
-    
-    public static boolean idUtilisateurExiste (Connection con, int id) throws SQLException {
-        try (PreparedStatement pst = con.prepareStatement
-            ("select id from utilisateur1 where id = ?")) {
+
+    public static boolean idUtilisateurExiste(Connection con, int id) throws SQLException {
+        try ( PreparedStatement pst = con.prepareStatement("select id from utilisateur1 where id = ?")) {
             pst.setInt(1, id);
             ResultSet res = pst.executeQuery();
             return res.next();
         }
     }
-    
-    public static boolean idCategorieExiste (Connection con, int id) throws SQLException {
-        try (PreparedStatement pst = con.prepareStatement
-            ("select id from categorie1 where id = ?")) {
+
+    public static boolean idCategorieExiste(Connection con, int id) throws SQLException {
+        try ( PreparedStatement pst = con.prepareStatement("select id from categorie1 where id = ?")) {
             pst.setInt(1, id);
             ResultSet res = pst.executeQuery();
             return res.next();
         }
     }
-    
-    public static boolean idObjetExiste (Connection con, int id) throws SQLException {
-        try (PreparedStatement pst = con.prepareStatement
-        ("select id from objet1 where id = ?")) {
+
+    public static boolean idObjetExiste(Connection con, int id) throws SQLException {
+        try ( PreparedStatement pst = con.prepareStatement("select id from objet1 where id = ?")) {
             pst.setInt(1, id);
             ResultSet res = pst.executeQuery();
             return res.next();
         }
     }
-    
+
     public static int choisiUtilisateur(Connection con) throws SQLException {
         boolean ok = false;
         int id = -1;
@@ -408,7 +421,7 @@ public static void afficheTousLesUtilisateurs(Connection con) throws SQLExceptio
         }
         return id;
     }
-    
+
     public static int choisiCategorie(Connection con) throws SQLException {
         boolean ok = false;
         int id = -1;
@@ -423,7 +436,7 @@ public static void afficheTousLesUtilisateurs(Connection con) throws SQLExceptio
         }
         return id;
     }
-    
+
     public static int choisiObjet(Connection con) throws SQLException {
         boolean ok = false;
         int id = -1;
@@ -453,17 +466,14 @@ public static void afficheTousLesUtilisateurs(Connection con) throws SQLExceptio
 //            createObjet(con, "Pull", "En laine", 2022-09-05 10:00:00, 2022-09-08 10:00:00, 2000, 2, 3);
             //afficheTousLesUtilisateurs(con);
 
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Enchere.class
+                    .getName()).log(Level.SEVERE, null, ex);
 
-} catch (ClassNotFoundException ex) {
-            Logger.getLogger(Enchere.class  
-
-.getName()).log(Level.SEVERE, null, ex);
-
-} catch (SQLException ex) {
-            Logger.getLogger(Enchere.class  
-
-.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Enchere.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
