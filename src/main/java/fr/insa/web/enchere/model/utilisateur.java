@@ -12,13 +12,13 @@ public class utilisateur {
      private final int id;
     private String nom;
     private String pass;
-    private String nomRole;
+//    private String nomRole;
 
     public utilisateur(int id, String nom, String pass, String nomRole) {
         this.id = id;
         this.nom = nom;
         this.pass = pass;
-        this.nomRole = nomRole;
+//        this.nomRole = nomRole;
     }
 
     /**
@@ -56,7 +56,7 @@ public class utilisateur {
         this.pass = pass;
     }
 
-    public String getNomRole() {
-        return nomRole;
-    }
+//    public String getNomRole() {
+//        return nomRole;
+//    }
 }

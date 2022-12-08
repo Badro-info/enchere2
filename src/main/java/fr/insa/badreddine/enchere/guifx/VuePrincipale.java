@@ -20,6 +20,7 @@ package fr.insa.badreddine.enchere.guifx;
 
 import fr.insa.badreddine.enchere.Enchere;
 import fr.insa.web.enchere.guiFX.vues.entetelogin;
+import fr.insa.web.enchere.sessioninfo;
 import fr.insa.web.enchere.sessioninfo.SessionInfo;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -38,6 +39,8 @@ public class VuePrincipale extends BorderPane {
     private Connection connectBdD;
     private int utilisateurCourant;
     private ScrollPane mainContent;
+    private sessioninfo sessioninfo;
+
     
     public void setEntete(Node c) {
         this.setTop(c);
@@ -45,6 +48,9 @@ public class VuePrincipale extends BorderPane {
     
     public void setMainContent(Node c) {
         this.mainContent.setContent(c);
+    }
+    public sessioninfo getSessionInfo() {
+        return sessioninfo;
     }
     
     public VuePrincipale() {

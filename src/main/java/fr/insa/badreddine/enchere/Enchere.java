@@ -15,6 +15,9 @@ import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import fr.insa.badreddine.utils.ConsoleFdB;
+import fr.insa.web.enchere.model.utilisateur;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * sqjdfhlkq pdfqsjmqsdjg
@@ -451,7 +454,24 @@ public class Enchere {
         }
         return id;
     }
-
+//     public static List<utilisateur> tousLesUtilisateurs(Connection con) throws SQLException {
+//        List<utilisateur> res = new ArrayList<>();
+//        try ( PreparedStatement pst = con.prepareStatement(
+//                "select utilisateur1.id as uid,nom,pass,nrole"
+//                + " from utilisateur1 "
+//                + "   join enchere1 on utilisateur1.id = enchere1.sur"
+//                + " order by nom asc")) {
+//
+//            try ( ResultSet rs = pst.executeQuery()) {
+//                while (rs.next()) {
+//                    res.add(new utilisateur(rs.getInt("id"),
+//                            rs.getString("nom"), rs.getString("pass")));
+////                            rs.getString("nrole")));
+//                }
+//                return res;
+//            }
+//        }
+//     }
     public static void main(String[] args) throws NomExisteDejaException {
         System.out.println("Hello World!");
         try {
