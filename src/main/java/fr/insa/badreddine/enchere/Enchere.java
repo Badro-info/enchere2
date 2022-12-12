@@ -4,7 +4,6 @@
  */
 package fr.insa.badreddine.enchere;
 
-import java.io.Console;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import fr.insa.badreddine.utils.ConsoleFdB;
+import fr.insa.web.enchere.model.Objet;
 import fr.insa.web.enchere.model.utilisateur;
 import java.util.ArrayList;
 import java.util.List;
@@ -454,24 +454,49 @@ public class Enchere {
         }
         return id;
     }
-//     public static List<utilisateur> tousLesUtilisateurs(Connection con) throws SQLException {
-//        List<utilisateur> res = new ArrayList<>();
-//        try ( PreparedStatement pst = con.prepareStatement(
-//                "select utilisateur1.id as uid,nom,pass,nrole"
-//                + " from utilisateur1 "
-//                + "   join enchere1 on utilisateur1.id = enchere1.sur"
-//                + " order by nom asc")) {
-//
-//            try ( ResultSet rs = pst.executeQuery()) {
-//                while (rs.next()) {
-//                    res.add(new utilisateur(rs.getInt("id"),
-//                            rs.getString("nom"), rs.getString("pass")));
-////                            rs.getString("nrole")));
-//                }
-//                return res;
-//            }
-//        }
-//     }
+
+    public static List<utilisateur> tousLesUtilisateurs(Connection con) throws SQLException {
+        List<utilisateur> res = new ArrayList<>();
+        try ( PreparedStatement pst = con.prepareStatement(
+                "select id,nom,email,pass,codepostal"
+                + " from utilisateur1 "
+                + " order by nom asc")) {
+
+            try ( ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    res.add(new utilisateur(rs.getInt("id"),
+                            rs.getString("nom"), rs.getString("email"),
+                             rs.getString("pass"), rs.getString("codepostal")));
+//                            rs.getString("nrole")));
+                }
+                return res;
+            }
+        }
+    }
+
+    public static List<Objet> objetsDeUtilisateur(Connection con, String nomU) throws SQLException {
+        List<Objet> res = new ArrayList<>();
+        try ( PreparedStatement pst = con.prepareStatement(
+                "select objet1.id, objet1.titre, objet1.description ,objet1.debut, objet1.fin, objet1.prixbase, utiliteur1.nom"
+                + " from objet1"
+                + " join utilisateur1 on utilisateur1.id = objet.proposepar "
+                + " where utilisateur1.nom = ? "
+                + " order by nom asc")) {
+
+            pst.setString(1, nomU);
+ //    public Objet(int id, String titre, String description, TextField debut, TextField fin, TextField prixbase, String nomU) {
+           try ( ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    res.add(new Objet(rs.getInt("id"),
+                            rs.getString("titre"), rs.getString("description"),
+                             rs.getTimestamp("debut").toString(), rs.getTimestamp("fin").toString(),
+                            rs.getInt("prixbase"),rs.getString("nomU")));
+                }
+                return res;
+            }
+        }
+    }
+
     public static void main(String[] args) throws NomExisteDejaException {
         System.out.println("Hello World!");
         try {

@@ -18,14 +18,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
  *
  * @author badro
  */
-public class utilisateurTable {
-    public class UtilisateurTable extends TableView {
+public class UtilisateurTable2 extends TableView {
     
     private VuePrincipale main;
     
     private ObservableList<utilisateur> utilisateurs;
     
-    public UtilisateurTable(VuePrincipale main,List<utilisateur> utilisateurs) {
+    public UtilisateurTable2(VuePrincipale main,List<utilisateur> utilisateurs) {
         this.main = main;
         this.utilisateurs = FXCollections.observableArrayList(utilisateurs);
         
@@ -33,15 +32,15 @@ public class utilisateurTable {
         
         TableColumn<utilisateur,String> cNom = 
                 new TableColumn<>("nom");
-        TableColumn<utilisateur,String> cRole = 
-                new TableColumn<>("role");
-        this.getColumns().addAll(cNom,cRole);
+        TableColumn<utilisateur,String> cEmail = 
+                new TableColumn<>("email");
+        this.getColumns().addAll(cNom,cEmail);
         
         // si l'on ne veut pas d'espace supplémentaire
         this.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         
         cNom.setCellValueFactory(new PropertyValueFactory<>("nom"));
-        cRole.setCellValueFactory(new PropertyValueFactory<>("nomRole"));
+        cEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         this.setItems(this.utilisateurs);
     }
 
@@ -62,4 +61,4 @@ public class utilisateurTable {
     }
     
 }
-}
+

@@ -6,18 +6,43 @@ package fr.insa.web.enchere.model;
 
 /**
  *
+ * id integer not null primary key
+                          generated always as identity,
+                        nom varchar(100) not null unique,
+                        prenom varchar(50) not null,
+                        email varchar(100) not null unique,
+                        pass varchar(50) not null,
+                        codepostal varchar(30) not null
  * @author badro
  */
 public class utilisateur {
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @return the codepostal
+     */
+    public String getCodepostal() {
+        return codepostal;
+    }
      private final int id;
     private String nom;
+    private String email;
     private String pass;
+    private String codepostal;
 //    private String nomRole;
 
-    public utilisateur(int id, String nom, String pass, String nomRole) {
+    public utilisateur(int id, String nom, String email, String pass, String codepostal) {
         this.id = id;
         this.nom = nom;
+        this.email = email;
         this.pass = pass;
+        this.codepostal = codepostal;
 //        this.nomRole = nomRole;
     }
 

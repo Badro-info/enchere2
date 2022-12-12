@@ -20,6 +20,7 @@ package fr.insa.badreddine.enchere.guifx;
 
 import fr.insa.badreddine.enchere.Enchere;
 import fr.insa.web.enchere.guiFX.vues.entetelogin;
+import fr.insa.web.enchere.guiFX.vues.listedesutilisateurs;
 import fr.insa.web.enchere.sessioninfo;
 import fr.insa.web.enchere.sessioninfo.SessionInfo;
 import java.sql.Connection;
@@ -60,6 +61,7 @@ public class VuePrincipale extends BorderPane {
             this.mainContent = new ScrollPane();
             this.setCenter(this.mainContent);
             this.setTop(new entetelogin(this)); // j'integre entetelogin dans ma vue principale
+            this.setMainContent(new listedesutilisateurs(this));
 //            this.setTop(new enteteboutons(this));
         } catch (ClassNotFoundException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
